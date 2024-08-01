@@ -24,6 +24,39 @@ class Polynomial:
 
         return Polynomial(self.coefs, self.order)
 
+    def __sub__(self, other_polynomial: Polynomial) -> Polynomial:
+        if self.order != other_polynomial.order:
+            polynomial_a, other_polynomial = self.make_polynomials_match_order(
+                Polynomial(self.coefs, self.order), other_polynomial
+            )
+            self.coefs = polynomial_a.coefs
+            self.order = polynomial_a.order
+        for index in range(self.order + 1):
+            self.coefs[index] = self.coefs[index] - other_polynomial.coefs[index]
+
+        return Polynomial(self.coefs, self.order)
+
+    def __mul__(self, other_polynomial: Polynomial) -> Polynomial:
+        # This approach is not efficient is O(n^2). There is a more
+        # efficient with FFT which is O(n log n)
+        max_order = self.order + other_polynomial.order
+        coefs_from_mult = [0] * (max_order + 1)
+
+        current_poly_coef_order = self.order
+        for poly_index in range(self.order + 1):
+            current_other_poly_coef_order = other_polynomial.order
+            for other_poly_index in range(other_polynomial.order + 1):
+                position_to_insert = (
+                    -(current_poly_coef_order + current_other_poly_coef_order) - 1
+                )
+                coefs_from_mult[position_to_insert] += (
+                    self.coefs[poly_index] * other_polynomial.coefs[other_poly_index]
+                )
+                current_other_poly_coef_order -= 1
+            current_poly_coef_order -= 1
+
+        return Polynomial(coefs_from_mult, max_order)
+
     def make_polynomials_match_order(
         self, polynomial_a: Polynomial, polynomial_b: Polynomial
     ) -> tuple[Polynomial]:
