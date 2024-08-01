@@ -32,3 +32,10 @@ def test_if_polynomial_multiplication_is_correct():
 
     assert result_polynomial_from_sum.coefs == expected_polynomial_from_sum.coefs
     assert result_polynomial_from_sum.order == expected_polynomial_from_sum.order
+
+
+def test_if_polynomial_print_is_working_correctly():
+    test_polynomial = Polynomial([7, 7, 7], 2)
+    expected_polynomial_as_str = "7x**2 + 7x**1 + 7"
+
+    assert str(test_polynomial) == expected_polynomial_as_str

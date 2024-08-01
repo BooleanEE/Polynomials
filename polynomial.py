@@ -1,6 +1,9 @@
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+
 from __future__ import annotations
 from typing import Union, List
-
 
 class Polynomial:
     def __init__(self, coefs: List[Union[int, float]], order: int):
@@ -56,6 +59,17 @@ class Polynomial:
             current_poly_coef_order -= 1
 
         return Polynomial(coefs_from_mult, max_order)
+
+    def __str__(self):
+        polynomial_str = ""
+        order_count = self.order
+        coefs_without_constant = self.coefs[:-1].copy()
+        for coef in coefs_without_constant:
+            polynomial_str += str(coef) + "x**" + str(order_count) + " + "
+            order_count -= 1
+        polynomial_str += str(self.coefs[-1])
+
+        return polynomial_str
 
     def make_polynomials_match_order(
         self, polynomial_a: Polynomial, polynomial_b: Polynomial
