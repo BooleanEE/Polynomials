@@ -5,6 +5,7 @@
 from __future__ import annotations
 from typing import Union, List
 
+
 class Polynomial:
     def __init__(self, coefs: List[Union[int, float]], order: int):
         # Coefficients from x**order to x**0 (constant coefficient)
@@ -105,3 +106,14 @@ class Polynomial:
             polynomial_b.coefs.insert(0, 0)
             fill_with_zero_counter += 1
         return (polynomial_a, polynomial_b)
+
+    def eval(self, evaluate_at: List[Union[int, float]]) -> List[Union[int, float]]:
+        result_from_eval = 0
+        order_count = self.order
+        coefs_without_constant = self.coefs[:-1].copy()
+        for coef in coefs_without_constant:
+            result_from_eval += coef * (evaluate_at**order_count)
+            order_count -= 1
+        result_from_eval += self.coefs[-1]
+
+        return result_from_eval

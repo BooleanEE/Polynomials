@@ -39,3 +39,12 @@ def test_if_polynomial_print_is_working_correctly():
     expected_polynomial_as_str = "7x**2 + 7x**1 + 7"
 
     assert str(test_polynomial) == expected_polynomial_as_str
+
+
+def test_if_polynomial_evaluation_is_correct_for_value():
+    test_polynomial = Polynomial([7, 7, 7], 2)
+    expected_result_from_x_equals_5 = 217
+
+    result_from_evaluation = test_polynomial.eval(5)
+
+    assert result_from_evaluation == expected_result_from_x_equals_5
